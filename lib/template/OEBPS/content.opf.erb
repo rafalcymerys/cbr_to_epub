@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="BookID" version="2.0">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    <dc:title><%= metadata.title %></dc:title>
+    <dc:creator opf:role="aut"><%= metadata.author %></dc:creator>
+    <dc:language>en</dc:language>
+    <dc:identifier id="BookID" opf:scheme="URN"><%= metadata.uuid %></dc:identifier>
+    <meta name="cover" content="image_0"/>
+  </metadata>
+  <manifest>
+    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+    <item id="css" href="style.css" media-type="text/css"/>
+    <% pages.each do |page| %>
+        <item id="page_<%= page.number %>" href="<%= page.page_file %>" media-type="application/xhtml+xml"/>
+        <item id="image_<%= page.number %>" href="<%= page.image_file %>" media-type="<%= page.image_media_type %>"/>
+    <% end %>
+  </manifest>
+  <spine toc="ncx">
+    <% pages.each do |page| %>
+        <itemref idref="page_<%= page.number %>"/>
+    <% end %>
+  </spine>
+</package>

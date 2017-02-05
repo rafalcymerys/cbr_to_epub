@@ -1,0 +1,32 @@
+#!/usr/bin/ruby
+
+require 'optparse'
+require_relative '../lib/cbr_to_epub'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = 'Usage: cbr_to_epub [options]'
+
+  opts.on('-i', '--input FILE', 'Input CBR file to be converted') do |input|
+    options[:input] = input
+  end
+
+  opts.on('-o', '--output FILE', 'Output EPUB file that will be created') do |output|
+    options[:output] = output
+  end
+
+  opts.on('-a', '--author [AUTHOR]', 'Add author to metadata') do |author|
+    options[:author] = author
+  end
+
+  opts.on('-t', '--title [TITLE]', 'Add title to metadata') do |title|
+    options[:title] = title
+  end
+end.parse!
+
+raise 'No input file specified' unless options[:input]
+
+metadata = CbrToEpub::Output::Content::Metadata.new(options[:author], options[:title])
+
+converter = CbrToEpub::Converter.new(options[:input], options[:output] || (options[:input] + '.epub'), metadata)
+converter.convert

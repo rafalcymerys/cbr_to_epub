@@ -1,0 +1,24 @@
+<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN"
+   "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
+    <head>
+        <meta name="dtb:uid"
+              content="<%= metadata.uuid %>>"/>
+        <meta name="dtb:depth" content="1"/>
+        <meta name="dtb:totalPageCount" content="<%= pages.size %>"/>
+        <meta name="dtb:maxPageNumber" content="<%= pages.size %>"/>
+    </head>
+    <docTitle>
+        <text><%= metadata.title %></text>
+    </docTitle>
+    <navMap>
+        <% pages.each do |page| %>
+            <navPoint id="navPoint-<%= page.number %>" playOrder="<%= page.number %>">
+                <navLabel>
+                    <text>Page <%= page.number %></text>
+                </navLabel>
+                <content src="<%= page.page_file %>"/>
+            </navPoint>
+        <% end %>
+    </navMap>
+</ncx>
